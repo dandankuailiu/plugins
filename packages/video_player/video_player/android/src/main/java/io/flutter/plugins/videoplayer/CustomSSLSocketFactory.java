@@ -1,10 +1,15 @@
 package io.flutter.plugins.videoplayer;
 
+import org.apache.http.conn.ssl.X509HostnameVerifier;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
@@ -18,9 +23,7 @@ public class CustomSSLSocketFactory extends SSLSocketFactory {
     sslSocketFactory = context.getSocketFactory();
 
     // enable self signed ssl
-    HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
-    socketFactory.setHostnameVerifier((X509HostnameVerifier) hostnameVerifier);
-    HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
+    AllCertificatesAndHostsTruster.apply();
   }
 
   @Override

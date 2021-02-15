@@ -16,6 +16,11 @@ public class CustomSSLSocketFactory extends SSLSocketFactory {
     SSLContext context = SSLContext.getInstance("TLS");
     context.init(null, null, null);
     sslSocketFactory = context.getSocketFactory();
+
+    // enable self signed ssl
+    HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
+    socketFactory.setHostnameVerifier((X509HostnameVerifier) hostnameVerifier);
+    HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
   }
 
   @Override
